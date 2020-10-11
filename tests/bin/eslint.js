@@ -379,7 +379,14 @@ describe("bin/eslint.js", () => {
 
     describe("emitting a warning for ecmaFeatures", () => {
         it("does not emit a warning when it does not find an ecmaFeatures option", () => {
+            // eslint-disable-next-line no-console
+            console.log("Running ESLint...");
+            const start = process.hrtime();
             const child = runESLint(["Makefile.js"]);
+            const [seconds, nanoseconds] = process.hrtime(start);
+
+            // eslint-disable-next-line no-console
+            console.log(`Ran ESLint in ${seconds + nanoseconds / 1e9}s`);
 
             const exitCodePromise = assertExitCode(child, 0);
             const outputPromise = getOutput(child).then(output => assert.strictEqual(output.stderr, ""));
@@ -387,7 +394,14 @@ describe("bin/eslint.js", () => {
             return Promise.all([exitCodePromise, outputPromise]);
         });
         it("emits a warning when it finds an ecmaFeatures option", () => {
+            // eslint-disable-next-line no-console
+            console.log("Running ESLint...");
+            const start = process.hrtime();
             const child = runESLint(["-c", "tests/fixtures/config-file/ecma-features/.eslintrc.yml", "Makefile.js"]);
+            const [seconds, nanoseconds] = process.hrtime(start);
+
+            // eslint-disable-next-line no-console
+            console.log(`Ran ESLint in ${seconds + nanoseconds / 1e9}s`);
 
             const exitCodePromise = assertExitCode(child, 0);
             const outputPromise = getOutput(child).then(output => {

@@ -102,9 +102,17 @@ describe("CLIEngine", () => {
     }
 
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
-    before(() => {
+    before(async () => {
+        // eslint-disable-next-line no-console
+        console.log("Copying fixtures...");
+        const start = process.hrtime();
+
         shell.mkdir("-p", fixtureDir);
         shell.cp("-r", "./tests/fixtures/.", fixtureDir);
+        const [seconds, nanoseconds] = process.hrtime(start);
+
+        // eslint-disable-next-line no-console
+        console.log(`Copied fixtures in ${seconds + nanoseconds / 1e9}s`);
     });
 
     beforeEach(() => {

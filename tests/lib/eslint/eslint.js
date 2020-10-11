@@ -87,8 +87,16 @@ describe("ESLint", () => {
 
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
     before(() => {
+        // eslint-disable-next-line no-console
+        console.log("Copying fixtures...");
+        const start = process.hrtime();
+
         shell.mkdir("-p", fixtureDir);
         shell.cp("-r", "./tests/fixtures/.", fixtureDir);
+        const [seconds, nanoseconds] = process.hrtime(start);
+
+        // eslint-disable-next-line no-console
+        console.log(`Copied fixtures in ${seconds + nanoseconds / 1e9}s`);
     });
 
     beforeEach(() => {
@@ -104,7 +112,15 @@ describe("ESLint", () => {
             process.chdir(__dirname);
             try {
                 const engine = new ESLint();
+
+                // eslint-disable-next-line no-console
+                console.log("Linting files...");
+                const start = process.hrtime();
                 const results = await engine.lintFiles("eslint.js");
+                const [seconds, nanoseconds] = process.hrtime(start);
+
+                // eslint-disable-next-line no-console
+                console.log(`Linted files in ${seconds + nanoseconds / 1e9}s`);
 
                 assert.strictEqual(path.dirname(results[0].filePath), __dirname);
             } finally {

@@ -83,9 +83,17 @@ describe("cli", () => {
 
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
     before(() => {
+        // eslint-disable-next-line no-console
+        console.log("Copying fixtures...");
+        const start = process.hrtime();
+
         fixtureDir = `${os.tmpdir()}/eslint/fixtures`;
         sh.mkdir("-p", fixtureDir);
         sh.cp("-r", "./tests/fixtures/.", fixtureDir);
+        const [seconds, nanoseconds] = process.hrtime(start);
+
+        // eslint-disable-next-line no-console
+        console.log(`Copied fixtures in ${seconds + nanoseconds / 1e9}s`);
     });
 
     afterEach(() => {
